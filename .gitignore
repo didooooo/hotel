@@ -33,7 +33,5 @@ build/
 .vscode/
 
 ### Additional files ###
-**/.flattened-pom.xml
-**/application.properties
-**/src/main/resources/application.properties
-/persistence/.flattened-pom.xml
+**/*.flattened-pom.xml
+application.properties
