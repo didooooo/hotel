@@ -35,5 +35,5 @@ build/
 ### Additional files ###
 **/.flattened-pom.xml
 **/application.properties
-**/.flattened-pom.xml
 **/src/main/resources/application.properties
+/persistence/.flattened-pom.xml
