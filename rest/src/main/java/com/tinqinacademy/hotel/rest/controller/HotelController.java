@@ -3,9 +3,16 @@ package com.tinqinacademy.hotel.rest.controller;
 
 import com.tinqinacademy.hotel.api.models.enums.BathroomType;
 import com.tinqinacademy.hotel.api.models.operations.bookRoom.BookTheSpecificRoomInput;
+import com.tinqinacademy.hotel.api.models.operations.bookRoom.BookTheSpecificRoomOperation;
+import com.tinqinacademy.hotel.api.models.operations.bookRoom.BookTheSpecificRoomOutput;
 import com.tinqinacademy.hotel.api.models.operations.checkRoom.CheckRoomAvailabilityInput;
+import com.tinqinacademy.hotel.api.models.operations.checkRoom.CheckRoomAvailabilityOperation;
+import com.tinqinacademy.hotel.api.models.operations.checkRoom.CheckRoomAvailabilityOutput;
 import com.tinqinacademy.hotel.api.models.operations.getRoomById.GetRoomByIDInput;
+import com.tinqinacademy.hotel.api.models.operations.getRoomById.GetRoomByIdOperation;
 import com.tinqinacademy.hotel.api.models.operations.unbookRoom.UnbookRoomByIdInput;
+import com.tinqinacademy.hotel.api.models.operations.unbookRoom.UnbookRoomByIdOperation;
+import com.tinqinacademy.hotel.api.models.operations.unbookRoom.UnbookRoomByIdOutput;
 import com.tinqinacademy.hotel.core.services.processors.BookTheSpecificRoomProcessor;
 import com.tinqinacademy.hotel.core.services.processors.CheckRoomAvailabilityProcessor;
 import com.tinqinacademy.hotel.core.services.processors.GetRoomByIdProcessor;
@@ -21,13 +28,12 @@ import java.util.List;
 
 @RestController
 public class HotelController extends BaseController {
-    private final BookTheSpecificRoomProcessor bookTheSpecificRoomProcessor;
-    private final CheckRoomAvailabilityProcessor checkRoomAvailabilityProcessor;
-    private final UnbookRoomByIdProcessor unbookRoomByIdProcessor;
-    private final GetRoomByIdProcessor getRoomByIdProcessor;
+    private final BookTheSpecificRoomOperation bookTheSpecificRoomProcessor;
+    private final CheckRoomAvailabilityOperation checkRoomAvailabilityProcessor;
+    private final UnbookRoomByIdOperation unbookRoomByIdProcessor;
+    private final GetRoomByIdOperation getRoomByIdProcessor;
 
-    @Autowired
-    public HotelController(BookTheSpecificRoomProcessor bookTheSpecificRoomProcessor, CheckRoomAvailabilityProcessor checkRoomAvailabilityProcessor, UnbookRoomByIdProcessor unbookRoomByIdProcessor, GetRoomByIdProcessor getRoomByIdProcessor) {
+    public HotelController(BookTheSpecificRoomOperation bookTheSpecificRoomProcessor, CheckRoomAvailabilityOperation checkRoomAvailabilityProcessor, UnbookRoomByIdOperation unbookRoomByIdProcessor, GetRoomByIdOperation getRoomByIdProcessor) {
         this.bookTheSpecificRoomProcessor = bookTheSpecificRoomProcessor;
         this.checkRoomAvailabilityProcessor = checkRoomAvailabilityProcessor;
         this.unbookRoomByIdProcessor = unbookRoomByIdProcessor;

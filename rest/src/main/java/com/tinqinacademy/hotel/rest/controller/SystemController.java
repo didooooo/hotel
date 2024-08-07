@@ -1,11 +1,17 @@
 package com.tinqinacademy.hotel.rest.controller;
 
 import com.tinqinacademy.hotel.api.models.operations.getRegister.GetRegisterInput;
+import com.tinqinacademy.hotel.api.models.operations.getRegister.GetRegisterOperation;
 import com.tinqinacademy.hotel.api.models.operations.registerVisitor.RegisterVisitorInput;
+import com.tinqinacademy.hotel.api.models.operations.registerVisitor.RegisterVisitorOperation;
 import com.tinqinacademy.hotel.api.models.operations.systemDelete.SystemDeleteRoomInput;
+import com.tinqinacademy.hotel.api.models.operations.systemDelete.SystemDeleteRoomOperation;
 import com.tinqinacademy.hotel.api.models.operations.systemPatch.SystemPatchRoomInput;
+import com.tinqinacademy.hotel.api.models.operations.systemPatch.SystemPatchRoomOperation;
 import com.tinqinacademy.hotel.api.models.operations.systemPut.SystemPutRoomIdInput;
+import com.tinqinacademy.hotel.api.models.operations.systemPut.SystemPutRoomOperation;
 import com.tinqinacademy.hotel.api.models.operations.systemRoom.SystemRoomInput;
+import com.tinqinacademy.hotel.api.models.operations.systemRoom.SystemRoomOperation;
 import com.tinqinacademy.hotel.core.services.processors.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -19,15 +25,14 @@ import java.util.UUID;
 
 @RestController
 public class SystemController extends BaseController {
-    private final GetRegisterProcessor getRegisterProcessor;
-    private final RegisterVisitorProcessor registerVisitorProcessor;
-    private final SystemRoomProcessor systemRoomProcessor;
-    private final SystemPutRoomProcessor systemPutRoomProcessor;
-    private final SystemPatchRoomProcessor systemPatchRoomProcessor;
-    private final SystemDeleteRoomProcessor systemDeleteRoomProcessor;
+    private final GetRegisterOperation getRegisterProcessor;
+    private final RegisterVisitorOperation registerVisitorProcessor;
+    private final SystemRoomOperation systemRoomProcessor;
+    private final SystemPutRoomOperation systemPutRoomProcessor;
+    private final SystemPatchRoomOperation systemPatchRoomProcessor;
+    private final SystemDeleteRoomOperation systemDeleteRoomProcessor;
 
-    @Autowired
-    public SystemController(GetRegisterProcessor getRegisterProcessor, RegisterVisitorProcessor registerVisitorProcessor, SystemRoomProcessor systemRoomProcessor, SystemPutRoomProcessor systemPutRoomProcessor, SystemPatchRoomProcessor systemPatchRoomProcessor, SystemDeleteRoomProcessor systemDeleteRoomProcessor) {
+    public SystemController(GetRegisterOperation getRegisterProcessor, RegisterVisitorOperation registerVisitorProcessor, SystemRoomOperation systemRoomProcessor, SystemPutRoomOperation systemPutRoomProcessor, SystemPatchRoomOperation systemPatchRoomProcessor, SystemDeleteRoomOperation systemDeleteRoomProcessor) {
         this.getRegisterProcessor = getRegisterProcessor;
         this.registerVisitorProcessor = registerVisitorProcessor;
         this.systemRoomProcessor = systemRoomProcessor;
