@@ -2,6 +2,7 @@ package com.tinqinacademy.hotel.core.services.processors;
 
 import com.tinqinacademy.hotel.api.models.exceptions.ErrorMapper;
 import com.tinqinacademy.hotel.api.models.exceptions.Errors;
+import com.tinqinacademy.hotel.api.models.exceptions.customExceptions.ReservationAlreadyExists;
 import com.tinqinacademy.hotel.api.models.exceptions.customExceptions.ReservationNotFound;
 import com.tinqinacademy.hotel.api.models.exceptions.customExceptions.RoomNotFoundException;
 import com.tinqinacademy.hotel.api.models.operations.registerVisitor.DataForVisitor;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -42,7 +44,8 @@ public class RegisterVisitorProcessor implements RegisterVisitorOperation {
                     List<Guest> guests = getGuests(input);
                     guestRepository.saveAll(guests);
                     Room room = roomRepository.findById(UUID.fromString(input.getRoomId())).orElseThrow(() -> new RoomNotFoundException());
-                    Reservation reservation = reservationRepository.findByRoom(room).orElseThrow(() -> new ReservationNotFound());
+                    Reservation reservation = reservationRepository.findByRoom(room).orElseThrow(()->  new ReservationNotFound());
+                   // reservationRepository.findReservationByEndDateAfter(input.getStartDate(),input.getEndDate())
                     reservation.setGuests(guests);
                     reservationRepository.save(reservation);
                     RegisterVisitorOutput output = getRegisterVisitorOutput();

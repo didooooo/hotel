@@ -2,24 +2,17 @@ package com.tinqinacademy.hotel.rest.controller;
 
 
 import com.tinqinacademy.hotel.api.models.enums.BathroomType;
+import com.tinqinacademy.hotel.api.models.mapping.URLMapping;
 import com.tinqinacademy.hotel.api.models.operations.bookRoom.BookTheSpecificRoomInput;
 import com.tinqinacademy.hotel.api.models.operations.bookRoom.BookTheSpecificRoomOperation;
-import com.tinqinacademy.hotel.api.models.operations.bookRoom.BookTheSpecificRoomOutput;
 import com.tinqinacademy.hotel.api.models.operations.checkRoom.CheckRoomAvailabilityInput;
 import com.tinqinacademy.hotel.api.models.operations.checkRoom.CheckRoomAvailabilityOperation;
-import com.tinqinacademy.hotel.api.models.operations.checkRoom.CheckRoomAvailabilityOutput;
 import com.tinqinacademy.hotel.api.models.operations.getRoomById.GetRoomByIDInput;
 import com.tinqinacademy.hotel.api.models.operations.getRoomById.GetRoomByIdOperation;
 import com.tinqinacademy.hotel.api.models.operations.unbookRoom.UnbookRoomByIdInput;
 import com.tinqinacademy.hotel.api.models.operations.unbookRoom.UnbookRoomByIdOperation;
-import com.tinqinacademy.hotel.api.models.operations.unbookRoom.UnbookRoomByIdOutput;
-import com.tinqinacademy.hotel.core.services.processors.BookTheSpecificRoomProcessor;
-import com.tinqinacademy.hotel.core.services.processors.CheckRoomAvailabilityProcessor;
-import com.tinqinacademy.hotel.core.services.processors.GetRoomByIdProcessor;
-import com.tinqinacademy.hotel.core.services.processors.UnbookRoomByIdProcessor;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

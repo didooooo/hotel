@@ -1,4 +1,4 @@
-package com.tinqinacademy.hotel.rest.controller;
+package com.tinqinacademy.hotel.api.models.mapping;
 
 public class URLMapping {
     public static final String CHECK_ROOM_AVAILABILITY = "/api/hotel/rooms";

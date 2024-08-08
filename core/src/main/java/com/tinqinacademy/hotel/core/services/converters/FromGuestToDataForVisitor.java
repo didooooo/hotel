@@ -6,17 +6,17 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 @Component
-public class FromDataForVisitorToGuest implements Converter<DataForVisitor, Guest> {
+public class FromGuestToDataForVisitor implements Converter<Guest, DataForVisitor> {
     @Override
-    public Guest convert(DataForVisitor source) {
-        return Guest.builder()
+    public DataForVisitor convert(Guest source) {
+        return DataForVisitor.builder()
                 .firstName(source.getFirstName())
                 .lastName(source.getLastName())
+                .IDCardNumber(source.getIdCardNumber())
+                .authority(source.getIdCardAuthority())
+                .issueDate(source.getIdCardIssueDate())
                 .birthdate(source.getBirthdate())
-                .idCardIssueDate(source.getIssueDate())
-                .idCardAuthority(source.getAuthority())
-                .idCardNumber(source.getIDCardNumber())
-                .idCardValidity(source.getValidity())
+                .validity(source.getIdCardValidity())
                 .build();
     }
 }

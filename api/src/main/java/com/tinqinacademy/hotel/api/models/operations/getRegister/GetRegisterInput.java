@@ -18,9 +18,9 @@ public class GetRegisterInput  implements OperationInput {
     private String lastName;
     private String phoneNo;
     private String IDCardNumber;
-    private LocalDate validity;
+    private String validity;
     private String authority;
-    private LocalDate date;
-    private LocalDate birthdate;
-    private Integer roomNo;
+    private String date;
+    private String birthdate;
+    private String roomNo;
 }

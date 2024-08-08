@@ -1,5 +1,6 @@
 package com.tinqinacademy.hotel.rest.controller;
 
+import com.tinqinacademy.hotel.api.models.mapping.URLMapping;
 import com.tinqinacademy.hotel.api.models.operations.getRegister.GetRegisterInput;
 import com.tinqinacademy.hotel.api.models.operations.getRegister.GetRegisterOperation;
 import com.tinqinacademy.hotel.api.models.operations.registerVisitor.RegisterVisitorInput;
@@ -12,11 +13,8 @@ import com.tinqinacademy.hotel.api.models.operations.systemPut.SystemPutRoomIdIn
 import com.tinqinacademy.hotel.api.models.operations.systemPut.SystemPutRoomOperation;
 import com.tinqinacademy.hotel.api.models.operations.systemRoom.SystemRoomInput;
 import com.tinqinacademy.hotel.api.models.operations.systemRoom.SystemRoomOperation;
-import com.tinqinacademy.hotel.core.services.processors.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,15 +49,16 @@ public class SystemController extends BaseController {
 
     @GetMapping(URLMapping.REGISTER)
     public ResponseEntity<?> register(@RequestParam LocalDate startDate,
-                                                      @RequestParam LocalDate endDate,
-                                                      @RequestParam String firstName,
-                                                      @RequestParam String lastName,
-                                                      @RequestParam String phoneNo,
-                                                      @RequestParam String IDCardNumber,
-                                                      @RequestParam String validity,
-                                                      @RequestParam String authority,
-                                                      @RequestParam LocalDate date,
-                                                      @RequestParam Integer roomNo)  {
+                                      @RequestParam LocalDate endDate,
+                                      @RequestParam String roomNo,
+                                      @RequestParam(required = false) String firstName,
+                                      @RequestParam(required = false) String lastName,
+                                      @RequestParam(required = false) String phoneNo,
+                                      @RequestParam(required = false) String IDCardNumber,
+                                      @RequestParam(required = false) String validity,
+                                      @RequestParam(required = false) String authority,
+                                      @RequestParam(required = false) String date
+    ) {
 
         GetRegisterInput input = GetRegisterInput.builder()
                 .date(date)
@@ -69,7 +68,7 @@ public class SystemController extends BaseController {
                 .IDCardNumber(IDCardNumber)
                 .roomNo(roomNo)
                 .phoneNo(phoneNo)
-                .validity(LocalDate.parse(validity))
+                .validity(validity)
                 .lastName(lastName)
                 .authority(authority)
                 .build();
@@ -91,7 +90,7 @@ public class SystemController extends BaseController {
         return super.handleTheEither(systemDeleteRoomProcessor.process(input));
     }
 
-    @PatchMapping(value = URLMapping.SYSTEM_ROOM_BY_ID,consumes = "application/json-patch+json")
+    @PatchMapping(value = URLMapping.SYSTEM_ROOM_BY_ID, consumes = "application/json-patch+json")
     public ResponseEntity<?> patchRoom(@PathVariable String roomId, @RequestBody
     SystemPatchRoomInput input) {
         SystemPatchRoomInput result = SystemPatchRoomInput.builder()
