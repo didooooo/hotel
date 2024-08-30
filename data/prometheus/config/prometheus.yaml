@@ -1,0 +1,21 @@
+scrape_configs:
+  - job_name: 'prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets: [ 'localhost:9090','hotel:8080','bff:8081','comments:8082','authentication:8084' ]
+  - job_name: 'Spring Boot Application'
+    metrics_path: '/actuator/prometheus'
+    scrape_interval: 2s
+    static_configs:
+      - targets: [ 'hotel:8080' ]
+        labels:
+          application: "Hotel Service"
+      - targets: [ 'bff:8081' ]
+        labels:
+          application: "BFF Service"
+      - targets: [ 'comments:8082' ]
+        labels:
+          application: "Comments Service"
+      - targets: [ 'authentication:8084' ]
+        labels:
+          application: "Authentication Service"

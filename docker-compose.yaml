@@ -1,15 +1,138 @@
-version: '3.9'
+version: '3.8'
+
 services:
-  database:
-    image: postgres
-    restart: always
-    shm_size: 128mb
+  db:
+    image: postgres:15.7-alpine3.20
+    container_name: db-container
     ports:
-      - "5432:5432"
+      - 5432:5432
     environment:
-      POSTGRES_MULTIPLE_DATABASES: hotel,comments
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
-      HOST_AUTH_METHOD: trust
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=hotel
+
+    restart: always
     volumes:
-      - ./dockerscripts:/docker-entrypoint-initdb.d
+      - db-volume:/var/lib/postgresql/data
+      - ./dockerScript:/docker-entrypoint-initdb.d
+#    networks:
+#      - network1
+
+  prometheus:
+    image: prom/prometheus:v2.35.0
+    container_name: prometheus
+    restart: unless-stopped
+    volumes:
+      - ./data/prometheus/config:/etc/prometheus/
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yaml"
+    ports:
+      - "9090:9090"
+
+  grafana:
+    image: grafana/grafana-oss:8.5.2
+    pull_policy: always
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    user: root
+    links:
+      - prometheus:prometheus
+    volumes:
+      - ./data/grafana:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_SERVER_DOMAIN=localhost
+      - GF_LOG_MODE=console file
+      - GF_LOG_FILTERS=alerting.notifier.slack:debug alertmanager:debug ngalert:debug
+  hotel:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/hotel
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=root
+      - spring.boot.admin.client.url=http://springbootadmin:8888
+      - spring.boot.admin.client.instance.management-url=http://hotel:8080/actuator
+      - spring.boot.admin.client.instance.service-url=http://hotel:8080/
+      - spring.boot.admin.client.instance.health-url=http://hotel:8080/actuator/health
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+#    networks:
+#      - network1
+
+  comments:
+    build:
+      context: ../CommentsProject
+      dockerfile: Dockerfile
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/comments
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=root
+      - spring.boot.admin.client.url=http://springbootadmin:8888
+      - spring.boot.admin.client.instance.management-url=http://comments:8082/actuator
+      - spring.boot.admin.client.instance.service-url=http://comments:8082/
+      - spring.boot.admin.client.instance.health-url=http://comments:8082/actuator/health
+    ports:
+      - "8082:8082"
+    depends_on:
+      - db
+#    networks:
+#      - network1
+
+  bff:
+    build:
+      context: ../BFF
+      dockerfile: Dockerfile
+    environment:
+      - spring.boot.admin.client.url=http://springbootadmin:8888
+      - spring.boot.admin.client.instance.management-url=http://bff:8081/actuator
+      - spring.boot.admin.client.instance.service-url=http://bff:8081/
+      - spring.boot.admin.client.instance.health-url=http://bff:8081/actuator/health
+    ports:
+      - "8081:8081"
+    depends_on:
+      - hotel
+      - comments
+      - authentication
+#    networks:
+#      - network1
+
+  authentication:
+    build:
+      context: ../Authentication
+      dockerfile: Dockerfile
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/users
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=root
+      - spring.boot.admin.client.url=http://springbootadmin:8888
+      - spring.boot.admin.client.instance.management-url=http://authentication:8084/actuator
+      - spring.boot.admin.client.instance.service-url=http://authentication:8084/
+      - spring.boot.admin.client.instance.health-url=http://authentication:8084/actuator/health
+    ports:
+      - "8084:8084"
+    depends_on:
+      - db
+#    networks:
+#      - network1
+
+  springbootadmin:
+    build:
+      context: ../SpringAdminService
+      dockerfile: Dockerfile
+    ports:
+      - "8888:8888"
+#    networks:
+#      - network1
+volumes:
+  db-volume:
+
+#networks:
+#  network1:
+#    driver: bridge

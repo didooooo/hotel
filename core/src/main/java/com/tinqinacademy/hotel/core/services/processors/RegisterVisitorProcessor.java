@@ -2,7 +2,6 @@ package com.tinqinacademy.hotel.core.services.processors;
 
 import com.tinqinacademy.hotel.api.models.exceptions.ErrorMapper;
 import com.tinqinacademy.hotel.api.models.exceptions.Errors;
-import com.tinqinacademy.hotel.api.models.exceptions.customExceptions.ReservationAlreadyExists;
 import com.tinqinacademy.hotel.api.models.exceptions.customExceptions.ReservationNotFound;
 import com.tinqinacademy.hotel.api.models.exceptions.customExceptions.RoomNotFoundException;
 import com.tinqinacademy.hotel.api.models.operations.registerVisitor.DataForVisitor;
@@ -24,7 +23,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service

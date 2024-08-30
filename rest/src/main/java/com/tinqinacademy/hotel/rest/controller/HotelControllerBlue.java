@@ -20,26 +20,26 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-public class HotelController extends BaseController {
+public class HotelControllerBlue extends BaseController {
     private final BookTheSpecificRoomOperation bookTheSpecificRoomProcessor;
     private final CheckRoomAvailabilityOperation checkRoomAvailabilityProcessor;
     private final UnbookRoomByIdOperation unbookRoomByIdProcessor;
     private final GetRoomByIdOperation getRoomByIdProcessor;
-    private final String GREEN = "/green";
+    private final String BLUE = "/blue";
 
-    public HotelController(BookTheSpecificRoomOperation bookTheSpecificRoomProcessor, CheckRoomAvailabilityOperation checkRoomAvailabilityProcessor, UnbookRoomByIdOperation unbookRoomByIdProcessor, GetRoomByIdOperation getRoomByIdProcessor) {
+    public HotelControllerBlue(BookTheSpecificRoomOperation bookTheSpecificRoomProcessor, CheckRoomAvailabilityOperation checkRoomAvailabilityProcessor, UnbookRoomByIdOperation unbookRoomByIdProcessor, GetRoomByIdOperation getRoomByIdProcessor) {
         this.bookTheSpecificRoomProcessor = bookTheSpecificRoomProcessor;
         this.checkRoomAvailabilityProcessor = checkRoomAvailabilityProcessor;
         this.unbookRoomByIdProcessor = unbookRoomByIdProcessor;
         this.getRoomByIdProcessor = getRoomByIdProcessor;
     }
 
-    @GetMapping("/green")
-    public String green() {
-        return "Hello from the Green environment!";
+    @GetMapping("/blue")
+    public String blue() {
+        return "Hello from the Blue environment!";
     }
 
-    @GetMapping(GREEN + URLMapping.CHECK_ROOM_AVAILABILITY)
+    @GetMapping(BLUE + URLMapping.CHECK_ROOM_AVAILABILITY)
     public ResponseEntity<?> checkRoomAvailability(@RequestParam LocalDate startDate, @RequestParam LocalDate endDate, @RequestParam List<String> bedsInput, @RequestParam String bathroomType) {
         CheckRoomAvailabilityInput checkRoomAvailabilityInput =
                 CheckRoomAvailabilityInput.builder()
@@ -51,7 +51,7 @@ public class HotelController extends BaseController {
         return super.handleTheEither(checkRoomAvailabilityProcessor.process(checkRoomAvailabilityInput));
     }
 
-    @GetMapping(GREEN + URLMapping.GET_ROOM_BY_ID)
+    @GetMapping(BLUE + URLMapping.GET_ROOM_BY_ID)
     public ResponseEntity<?> getRoomByIDOutput(@PathVariable String roomId) {
         GetRoomByIDInput getRoomByIDInput =
                 GetRoomByIDInput.builder()
@@ -66,13 +66,13 @@ public class HotelController extends BaseController {
                     @ApiResponse(responseCode = "200", description = "booked")
             }
     )
-    @PostMapping(GREEN + URLMapping.GET_ROOM_BY_ID)
+    @PostMapping(BLUE + URLMapping.GET_ROOM_BY_ID)
     public ResponseEntity<?> bookSpecificRoom(@PathVariable("roomId") String roomId, @RequestBody BookTheSpecificRoomInput input) {
         input.setRoomId(roomId);
         return super.handleTheEither(bookTheSpecificRoomProcessor.process(input));
     }
 
-    @DeleteMapping(GREEN + URLMapping.UNBOOK_ROOM_BY_ID)
+    @DeleteMapping(BLUE + URLMapping.UNBOOK_ROOM_BY_ID)
     public ResponseEntity<?> unbookRoomById(@PathVariable("bookingId") String bookingId) {
         UnbookRoomByIdInput input = UnbookRoomByIdInput.builder()
                 .bookingId(bookingId)
